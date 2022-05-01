@@ -5,6 +5,7 @@ int E();
 void STMT();
 void IF();
 void BLOCK();
+void DOWHILE();
 
 int tempIdx = 0, labelIdx = 0;
 
@@ -84,19 +85,19 @@ void ASSIGN() {
 }
 
 void DOWHILE(){
-  int whileBegin = nextLabel();
-  int whileEnd = nextLabel();
-  emit("(L%d)\n", whileBegin);
+  int doBegin = nextLabel();
+  int doEnd = nextLabel();
+  emit("(L%d)\n", doBegin);
   skip("do");
   STMT();
   skip("while");
   skip("(");
   int e = E();
-  emit("if not T%d goto L%d\n", e, whileEnd);
+  emit("if not T%d goto L%d\n", e, doEnd);
   skip(")");
   skip(";");
-  emit("goto L%d\n", whileBegin);
-  emit("(L%d)\n", whileEnd);
+  emit("goto L%d\n", doBegin);
+  emit("(L%d)\n", doEnd);
 }
 
 // STMT = WHILE | BLOCK | ASSIGN
